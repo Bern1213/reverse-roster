@@ -1,9 +1,9 @@
 // src/components/CharacterCard.jsx
 import { useState } from 'react';
 
-function CharacterCard({ character, isSelected, onToggle }) {
+function CharacterCard({ character, isSelected, onToggle, isLarge }) {
   // id를 활용해 동적으로 이미지 경로 생성 (예: /images/characters/300301.png)
-  const imageUrl = `/images/characters/${character.id}.png`;
+  const imageUrl = isLarge? `/images/characters/${character.displayImageId}.png` : `/images/characters_small/${character.id}.png`;
   const [imageError, setImageError] = useState(false);
 
   // 별 개수 렌더링 함수 (성급 데이터가 없을 경우를 대비해 예외 처리 추가)

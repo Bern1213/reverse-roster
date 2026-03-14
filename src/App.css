@@ -181,3 +181,21 @@ button {
   max-width: 80px;
   height: auto;
 }
+
+/* 토글 버튼 스타일 */
+.toggle-btn {
+  padding: 8px 16px;
+  border: 1px solid #d4a373;
+  border-radius: 6px;
+  background-color: white;
+  color: #d4a373;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background-color: #d4a373;
+  color: white;
+}

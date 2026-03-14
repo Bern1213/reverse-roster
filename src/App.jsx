@@ -1,9 +1,9 @@
 // src/App.jsx
 
-import { useState } from 'react';
-import CharacterCard from './components/CharacterCard';
-import { characters } from './data'; // 새로 구성한 데이터를 불러옵니다.
-import './App.css';
+import { useState } from "react";
+import CharacterCard from "./components/CharacterCard";
+import { characters } from "./data"; // 새로 구성한 데이터를 불러옵니다.
+import "./App.css";
 
 // 필터 바 컴포넌트 (App 외부에 정의)
 const FilterBar = ({ activeFilter, setActiveFilter }) => {
@@ -16,10 +16,10 @@ const FilterBar = ({ activeFilter, setActiveFilter }) => {
 
   return (
     <div className="filter-bar">
-      {filters.map(filter => (
-        <button 
+      {filters.map((filter) => (
+        <button
           key={filter.id}
-          className={`filter-btn ${activeFilter === filter.id ? 'active' : ''}`}
+          className={`filter-btn ${activeFilter === filter.id ? "active" : ""}`}
           onClick={() => setActiveFilter(filter.id)}
         >
           {filter.label}
@@ -33,6 +33,7 @@ function App() {
   const [selectedChars, setSelectedChars] = useState({});
   const [showSummary, setShowSummary] = useState(false);
   const [activeFilter, setActiveFilter] = useState("all"); // 활성화된 필터 (all, 6, 5)
+  const [isLarge, setIsLarge] = useState(false);
 
   const toggleCharacter = (id) => {
     setSelectedChars((prev) => ({
@@ -43,13 +44,12 @@ function App() {
 
   const getFilteredCharacters = () => {
     if (activeFilter === "all") return characters;
-    return characters.filter(char => char.rarity.toString() === activeFilter);
+    return characters.filter((char) => char.rarity.toString() === activeFilter);
   };
 
   const getSelectedList = () => {
     return characters.filter((char) => selectedChars[char.id]);
   };
-
 
   return (
     <div className="container">
@@ -60,7 +60,17 @@ function App() {
 
       {!showSummary ? (
         <>
-          <FilterBar activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+          <FilterBar
+            activeFilter={activeFilter}
+            setActiveFilter={setActiveFilter}
+          />
+
+          <button
+            className={`toggle-btn ${isLarge ? "active" : ""}`}
+            onClick={() => setIsLarge(!isLarge)}
+          >
+            {isLarge ? "🖼️ 크게 보는 중" : "📱 작게 보는 중"}
+          </button>
 
           <div className="character-grid">
             {getFilteredCharacters().map((char) => (
@@ -69,12 +79,16 @@ function App() {
                 character={char}
                 isSelected={!!selectedChars[char.id]}
                 onToggle={toggleCharacter}
+                isLarge={isLarge}
               />
             ))}
           </div>
 
           <div className="action-area">
-            <button className="primary-btn" onClick={() => setShowSummary(true)}>
+            <button
+              className="primary-btn"
+              onClick={() => setShowSummary(true)}
+            >
               내 명함 정리하기
             </button>
           </div>
@@ -82,7 +96,7 @@ function App() {
       ) : (
         <div className="summary-section">
           <h2>내 보유 현황</h2>
-          
+
           <div className="summary-content">
             <table className="summary-table">
               <thead>
@@ -97,19 +111,25 @@ function App() {
                   getSelectedList().map((char) => (
                     <tr key={char.id}>
                       <td className="table-img-cell">
-                        <img 
-                          src={`/images/characters/${char.id}.png`} 
-                          alt={char.name || char.id} 
-                          className="table-img" 
+                        <img
+                          src={`/images/characters/${char.id}.png`}
+                          alt={char.name || char.id}
+                          className="table-img"
                         />
                       </td>
                       <td>{char.name || char.id}</td>
-                      <td>{char.rarity ? '★'.repeat(parseInt(char.rarity)) : "미분류"}</td>
+                      <td>
+                        {char.rarity
+                          ? "★".repeat(parseInt(char.rarity))
+                          : "미분류"}
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3">선택된 캐릭터가 없습니다. 다시 선택해주세요.</td>
+                    <td colSpan="3">
+                      선택된 캐릭터가 없습니다. 다시 선택해주세요.
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -117,7 +137,10 @@ function App() {
           </div>
 
           <div className="action-area">
-            <button className="secondary-btn" onClick={() => setShowSummary(false)}>
+            <button
+              className="secondary-btn"
+              onClick={() => setShowSummary(false)}
+            >
               다시 선택하기
             </button>
             {/* 이미지 저장 기능은 아래에서 별도로 설명합니다. */}
